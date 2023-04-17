@@ -1,0 +1,370 @@
+		private function createTables(e:SQLEvent):void
+		{
+			var query:String = "CREATE TABLE IF NOT EXISTS devices(" +
+				"device_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+				"name TEXT," +            
+				"serial TEXT," +
+				"phone TEXT," +
+				"sms INTEGER" +
+				")";
+			execQuery(query);
+			
+			query = "CREATE TABLE IF NOT EXISTS relays(" +
+				"device_id INTEGER," +
+				"relay_id INTEGER," +            
+				"name TEXT," +
+				"PRIMARY KEY (device_id, relay_id)" +
+				")";
+			execQuery(query);
+			
+			query = "CREATE TABLE IF NOT EXISTS sms_sent(" +
+				"sms_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+				"device_id INTEGER ," +
+				"date TEXT," +
+				"phone TEXT," +
+				"sms TEXT" +
+				")";
+			execQuery(query);
+			
+			query = "CREATE TABLE IF NOT EXISTS call_buttons(" +
+				"device_id INTEGER NOT NULL," +
+				"button_id INTEGER NOT NULL," +
+				"name1 TEXT," +
+				"dial1 TEXT," +
+				"rings1 INTEGER," +
+				"name2 TEXT," +
+				"dial2 TEXT," +
+				"rings2 INTEGER," +
+				"name3 TEXT," +
+				"dial3 TEXT," +
+				"rings3 INTEGER," +
+				"PRIMARY KEY (device_id, button_id)" +
+				")";
+			execQuery(query);
+			
+			query = "CREATE TABLE IF NOT EXISTS pin_codes(" +
+				"device_id INTEGER NOT NULL," +
+				"pin_code TEXT NOT NULL," +
+				"relay1 TEXT," +
+				"relay2 TEXT," +
+				"relay3 TEXT," +
+				"PRIMARY KEY (device_id, pin_code)" +
+				")";
+			execQuery(query);		
+			
+			query = "CREATE TABLE IF NOT EXISTS authorised(" +
+				"device_id INTEGER NOT NULL," +
+				"phone TEXT NOT NULL," +
+				"name TEXT NOT NULL," +
+				"mode int," +
+				"relay1 TEXT," +
+				"relay2 TEXT," +
+				"relay3 TEXT," +
+				"delay int," +			
+				"PRIMARY KEY (device_id, phone)" +
+				")";
+			execQuery(query);	
+			
+			query = "CREATE TABLE IF NOT EXISTS alerts(" +
+				"device_id INTEGER NOT NULL," +
+				"alert_id INTEGER NOT NULL," +
+				"aux_id INTEGER NOT NULL," +
+				"phone TEXT NOT NULL," +
+				"name TEXT NOT NULL," +
+				"sms TEXT NOT NULL," +
+				"PRIMARY KEY (device_id, alert_id, aux_id)" +
+				")";
+			execQuery(query);
+			
+			query = "CREATE TABLE IF NOT EXISTS entrance(" +
+				"entrance_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+				"device_id INTEGER NOT NULL," +
+				"phone TEXT NOT NULL," +
+				"name TEXT NOT NULL," +
+				"name_entrance TEXT NOT NULL," +
+				"mode INTEGER NOT NULL," +	
+				"relay INTEGER NOT NULL" +	
+				")";
+			execQuery(query);
+		}
+		
+		
+		/**
+		 * 
+		 * DEVICES
+		 * 
+		**/
+		public function insertDevice(name:String, serial:String, phone:String, sms:int=1, f:Function = null):void
+		{
+			var query:String = "INSERT INTO devices(name, serial, phone, sms) VALUES ('" + name + "', '" + serial + "', '" + phone + "', " + sms + ")";
+			
+			try
+			{
+				execQuery(query, f);           
+			}
+			catch (error:SQLError)
+			{
+			}
+		}
+		
+		public function modifyDevice(device_id:int, name:String, serial:String, phone:String, sms:int=1, f:Function = null):void
+		{
+			var query:String = "UPDATE devices SET name = '" + name + "', serial = '" + serial + "', phone = '" + phone + "', sms = " + sms + " WHERE device_id = " + device_id.toString();
+			
+			try
+			{
+				execQuery(query, f);           
+			}
+			catch (error:SQLError)
+			{
+			}
+		}
+		
+		public function deleteDevice(device_id:int, f:Function = null):void
+		{
+			var query:String = "DELETE FROM devices WHERE device_id = " + device_id.toString();
+			
+			try
+			{
+				execQuery(query, f);           
+			}
+			catch (error:SQLError)
+			{
+			}
+		}
+		
+		public function numDevices(f:Function = null):void
+		{
+			var query:String = "SELECT COUNT(*) num FROM devices"; 
+			execQuery(query, f);
+		}
+		
+		public function getDevices(f:Function = null):void
+		{
+			var query:String = "SELECT * FROM devices"; 
+			execQuery(query, f);
+		}
+		
+		
+		/**
+		 * 
+		 * CALL BUTTONS
+		 * 
+		 **/
+		public function getCallButton(device_id:String, button_id:String, f:Function = null):void
+		{
+			var query:String = "SELECT * FROM call_buttons WHERE device_id = " + device_id + " AND button_id = " + button_id; 
+			execQuery(query, f);
+		}
+		
+		public function insertCallButton(device_id:String, button_id:String, name1:String, dial1:String, rings1:String, name2:String, dial2:String, rings2:String, name3:String, dial3:String, rings3:String, f:Function = null):void
+		{
+			var query:String = "INSERT OR REPLACE INTO call_buttons (device_id, button_id, name1, dial1, rings1, name2, dial2, rings2, name3, dial3, rings3) VALUES (" + device_id + ", " + button_id + 
+				", '" + name1 + "', '" + dial1 + "', " + rings1 + 
+				", '" + name2 + "', '" + dial2 + "', " + rings2 + 
+				", '" + name3 + "', '" + dial3 + "', " + rings3 + ")"; 
+			execQuery(query, f);
+		}
+		
+		public function updateCallButton(device_id:String, button_id:String, name1:String, dial1:String, rings1:String, name2:String, dial2:String, rings2:String, name3:String, dial3:String, rings3:String, f:Function = null):void
+		{
+			var query:String = "UPDATE call_buttons SET name1 = '" + name1 + "', dial1 = '" + dial1 + "', rings1 = " + rings1 + 
+				", name2 = '" + name2 + "', dial2 = '" + dial2 + "', rings2 = " + rings2 +
+				", name3 = '" + name3 + "', dial3 = '" + dial3 + "', rings3 = " + rings3 +
+				" WHERE device_id = " + device_id + " AND button_id = " + button_id;
+			execQuery(query, f);
+		}
+		
+		public function deleteCallButton(device_id:String, button_id:String, f:Function = null):void
+		{
+			var query:String = "DELETE FROM call_buttons WHERE device_id = " + device_id + " AND button_id = " + button_id;
+			execQuery(query, f);
+		}
+		
+		/**
+		 * 
+		 * PIN CODES
+		 * 
+		 **/
+		public function getPinCodes(device_id:String, f:Function = null):void
+		{
+			var query:String = "SELECT * FROM pin_codes WHERE device_id = " + device_id; 
+			execQuery(query, f);
+		}
+		
+		public function getPinCode(device_id:String, pin_code:String, f:Function = null):void
+		{
+			var query:String = "SELECT * FROM pin_codes WHERE device_id = " + device_id + " AND pin_code = '" + pin_code + "'";
+			execQuery(query, f);
+		}
+		
+		public function insertPinCode(device_id:String, pin_code:String, relay1:String, relay2:String, relay3:String, f:Function = null):void
+		{
+			var query:String = "INSERT OR REPLACE INTO pin_codes (device_id, pin_code, relay1, relay2, relay3) VALUES (" + device_id + ", '" + pin_code + 
+				"', '" + relay1 + "', '" + relay2 + "', '" + relay3 + "')"; 
+			execQuery(query, f);
+		}
+		
+		public function updatePinCode(device_id:String, pin_code:String, new_pin_code:String, relay1:String, relay2:String, relay3:String, f:Function = null):void
+		{
+			var query:String = "UPDATE pin_codes SET pin_code = '" + new_pin_code + "', relay1 = '" + relay1 + "', relay2 = '" + relay2 + 
+				"', relay3 = '" + relay3 + "' WHERE device_id = " + device_id + " AND pin_code = '" + pin_code + "'";
+			execQuery(query, f);
+		}
+		
+		public function updateCodePinCode(device_id:String, pin_code:String, new_pin_code:String, f:Function = null):void
+		{
+			var query:String = "UPDATE pin_codes SET pin_code = '" + new_pin_code + "' WHERE device_id = " + device_id + " AND pin_code = '" + pin_code + "'";
+			execQuery(query, f);
+		}
+		
+		public function deletePinCode(device_id:String, pin_code:String, f:Function = null):void
+		{
+			var query:String = "DELETE FROM pin_codes WHERE device_id = " + device_id + " AND pin_code = '" + pin_code + "'";
+			execQuery(query, f);
+		}
+		
+		/**
+		 * 
+		 * AUTHORISED
+		 * 
+		 **/
+		public function getAuthoriseds(device_id:String, f:Function = null):void
+		{
+			var query:String = "SELECT * FROM authorised WHERE device_id = " + device_id; 
+			execQuery(query, f);
+		}
+		
+		public function getAuthorised(device_id:String, phone:String, f:Function = null):void
+		{
+			var query:String = "SELECT * FROM authorised WHERE device_id = " + device_id + " AND phone = '" + phone + "'";
+			execQuery(query, f);
+		}
+		
+		public function insertAuthorised(device_id:String, phone:String, name:String, mode:String, relay1:String, relay2:String, relay3:String, delay:String, f:Function = null):void
+		{
+			var query:String = "INSERT OR REPLACE INTO authorised (device_id, phone, name, mode, relay1, relay2, relay3, delay) VALUES (" + device_id + ", '" + phone + 
+				"', '" + name + "', " + mode + ", '" + relay1 + "', '" + relay2 + "', '" + relay3 + "', " + delay + ")"; 
+			execQuery(query, f);
+		}
+			
+		public function updateAuthorised(device_id:String, phone:String, new_phone:String, name:String, mode:String, relay1:String, relay2:String, relay3:String, delay:String, f:Function = null):void
+		{
+			var query:String = "UPDATE authorised SET phone = '" + new_phone + "', name = '" + name + "', mode = " + mode + ", relay1 = '" + relay1 + "', relay2 = '" + relay2 + 
+				"', relay3 = '" + relay3 + "', delay = " + delay + " WHERE device_id = " + device_id + " AND phone = '" + phone + "'";
+			execQuery(query, f);
+		}
+		
+		public function deleteAuthorised(device_id:String, phone:String, f:Function = null):void
+		{
+			var query:String = "DELETE FROM authorised WHERE device_id = " + device_id + " AND phone = '" + phone + "'";
+			execQuery(query, f);
+		}
+		
+		/**
+		 * 
+		 * ALERTS
+		 * 
+		 **/
+		public function getAlerts(device_id:String, f:Function = null):void
+		{
+			var query:String = "SELECT * FROM alerts WHERE device_id = " + device_id; 
+			execQuery(query, f);
+		}
+		
+		public function getAlert(device_id:String, alert_id:String, aux_id:String, f:Function = null):void
+		{
+			var query:String = "SELECT * FROM alerts WHERE device_id = " + device_id + " AND alert_id = " + alert_id + " AND aux_id = " + aux_id; 
+			execQuery(query, f);
+		}
+		
+		public function insertAlert(device_id:String, alert_id:String, aux_id:String, phone:String, name:String, sms:String, f:Function = null):void
+		{
+			var query:String = "INSERT OR REPLACE INTO alerts (device_id, alert_id, name, mode, relay1, relay2, relay3, delay) VALUES (" + device_id + ", " + alert_id + 
+				", " + aux_id + ", '" + phone + "', '" + name + "', '" + sms + "')"; 
+			execQuery(query, f);
+		}
+		
+		public function updateAlert(device_id:String, alert_id:String, new_alert_id:String, aux_id:String, new_aux_id:String, phone:String, name:String, sms:String, f:Function = null):void
+		{
+			var query:String = "UPDATE alerts SET phone = '" + phone + "', name = '" + name + "', alert_id = " + new_alert_id + ", aux_id = " + new_aux_id + ", sms = '" + sms + 
+				"'  WHERE device_id = " + device_id + " AND alert_id = " + alert_id + " AND aux_id = " + aux_id;
+			execQuery(query, f);
+		}
+		
+		public function deleteAlert(device_id:String, alert_id:String, aux_id:String, f:Function = null):void
+		{
+			var query:String = "DELETE FROM alerts WHERE device_id = " + device_id + " AND alert_id = " + alert_id + " AND aux_id = " + aux_id;
+			execQuery(query, f);
+		}
+		
+		/**
+		 * 
+		 * RELAYS
+		 * 
+		 **/
+		public function getRelays(device_id:String, f:Function = null):void
+		{
+			var query:String = "SELECT * FROM relays WHERE device_id = " + device_id; 
+			execQuery(query, f);
+		}
+		
+		public function getRelay(device_id:String, relay_id:String, f:Function = null):void
+		{
+			var query:String = "SELECT * FROM relays WHERE device_id = " + device_id + " AND relay_id = " + relay_id; 
+			execQuery(query, f);
+		}
+		
+		public function insertRelay(device_id:String, relay_id:String, name:String, f:Function = null):void
+		{
+			var query:String = "INSERT OR REPLACE INTO relays (device_id, relay_id, name) VALUES (" + device_id + ", " + relay_id + ", '" + name + "')"; 
+			execQuery(query, f);
+		}
+		
+		public function updateRelay(device_id:String, relay_id:String, name:String, f:Function = null):void
+		{
+			var query:String = "UPDATE relays SET name = '" + name + "' WHERE device_id = " + device_id + " AND relay_id = " + relay_id;
+			execQuery(query, f);
+		}
+		
+		public function deleteRelays(device_id:String, f:Function = null):void
+		{
+			var query:String = "DELETE FROM relays WHERE device_id = " + device_id;
+			execQuery(query, f);
+		}
+		
+		/**
+		 * 
+		 * ENTRANCES
+		 * 
+		 **/
+		public function getEntrances(device_id:String, f:Function = null):void
+		{
+			var query:String = "SELECT * FROM entrance WHERE device_id = " + device_id; 
+			execQuery(query, f);
+		}
+
+		public function insertEntrance(device_id:String, phone:String, name:String, mode:String, name_entrance:String, relay:String, f:Function = null):void
+		{
+			var query:String = "INSERT OR REPLACE INTO entrance (device_id, phone, name, mode, name_entrance, relay) VALUES (" + device_id + ", '" + phone + 
+				"', '" + name + "', " + mode + ", '" + name_entrance + "'," + relay + ")"; 
+			execQuery(query, f);
+		}
+		
+		public function updateEntrance(phone:String, name:String, mode:String, name_entrance:String, entrance_id:String, relay:String, f:Function = null):void
+		{
+			var query:String = "UPDATE entrance SET phone = '" + phone + "', name = '" + name + "', mode = " + mode + ", name_entrance = '" + name_entrance + "', relay = " + relay + " WHERE entrance_id = " + entrance_id;
+			execQuery(query, f);
+		}
+		
+		public function updateEntrancesMode(device_id:String, f:Function = null):void
+		{
+			var query:String = "UPDATE entrance SET mode = 5 WHERE device_id = " + device_id;
+			execQuery(query, f);
+		}
+		
+		public function deleteEntrance(entrance_id:String, f:Function = null):void
+		{
+			var query:String = "DELETE FROM entrance WHERE entrance_id = " + entrance_id;
+			execQuery(query, f);
+		}
