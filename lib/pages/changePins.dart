@@ -1080,33 +1080,37 @@ int counter = 0;
         builder: (BuildContext context) =>
             AlertDialog(
               contentPadding: EdgeInsets.zero,
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(right:PadValues.lesserPad),
-                        child: Image(image: AssetImage("assets/TickIcon.png"),
-                          height: 30,
-                          width: 30,
-                          fit: BoxFit.contain,
+              content: Padding(
+                padding: EdgeInsets.all(PadValues.lessPad),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right:PadValues.lesserPad),
+                          child: Image(image: AssetImage("assets/TickIcon.png"),
+                            height: 30,
+                            width: 30,
+                            fit: BoxFit.contain,
+                          ),
                         ),
-                      ),
-                      Text(msg),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      color: Colors.grey,
-                      height: 2,
+                        Flexible(child: Text(msg)),
+                      ],
                     ),
-                  )
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        color: Colors.grey,
+                        height: 2,
+                        width: 130,
+                      ),
+                    )
+                  ],
+                ),
               ),
               actions: <Widget>[
                 ElevatedButton(

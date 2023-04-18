@@ -37,7 +37,8 @@ class _TeleNumberState extends State<TeleNumber> {
   TextEditingController thirdRingController = TextEditingController();
 
   CallButtons? currentCallButton;
-
+ int counter = 0;
+  int counter1 = 0;
   List<String> val = ["Button 1","Button 2","Button 3","Button 4","Button 5",
     "Button 6","Button 7","Button 8","Button 9","Button 10",];
   @override
@@ -48,8 +49,7 @@ class _TeleNumberState extends State<TeleNumber> {
           future: callButtons,
           builder: (context, snapshot){
             if(!snapshot.hasData){
-              PopulateFields(snapshot.data);
-
+              emptyFields();
               return Scaffold(
                 body: ListView(
                   padding: EdgeInsets.zero,
@@ -112,8 +112,12 @@ class _TeleNumberState extends State<TeleNumber> {
                                       value: selectedButton,
                                       hint: Text("Select Type",),
                                       onChanged: (String? newValue) {
+
                                         setState(() {
                                           selectedButton = newValue!;
+                                          counter = 0;
+                                          counter1 = 0;
+
                                         });
                                       },
 
@@ -219,32 +223,35 @@ class _TeleNumberState extends State<TeleNumber> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(bottom: PadValues.mainPad),
-                            child: TextField(
-                              keyboardType: TextInputType.number,
+                            child: Container(
+                              width: 80,
+                              child: TextField(
+                                keyboardType: TextInputType.number,
 
-                              style: TextStyle(fontSize: 12,
-                                  color: Colors.grey.shade900
-                              ),
-                              controller: firstRingController,
-                              decoration: InputDecoration(
-                                        filled: true,
-                                        contentPadding: EdgeInsets.symmetric(vertical: PadValues.lesserPad, horizontal: PadValues.mainPad),
-                                        fillColor: Colors.grey.shade300,
-                                hintText: "20",
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade300, width: 1.0,),
+                                style: TextStyle(fontSize: 12,
+                                    color: Colors.grey.shade900
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.teal.shade900, width: 1.0),
+                                controller: firstRingController,
+                                decoration: InputDecoration(
+                                          filled: true,
+                                          contentPadding: EdgeInsets.symmetric(vertical: PadValues.lesserPad, horizontal: PadValues.mainPad),
+                                          fillColor: Colors.grey.shade300,
+                                  hintText: "20",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade300, width: 1.0,),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.teal.shade900, width: 1.0),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade300, width: 1.0),
+                                  ),
                                 ),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.grey.shade300, width: 1.0),
-                                ),
-                              ),
 
+                              ),
                             ),
                           ),
                           Padding(
@@ -334,30 +341,33 @@ class _TeleNumberState extends State<TeleNumber> {
                           Padding(
                             padding: EdgeInsets.only(bottom: PadValues.mainPad),
 
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              style: TextStyle(fontSize: 12,
-                                  color: Colors.grey.shade900
+                            child: Container(
+                              width: 80,
+                              child: TextField(
+                                keyboardType: TextInputType.number,
+                                style: TextStyle(fontSize: 12,
+                                    color: Colors.grey.shade900
+                                ),
+                                decoration: InputDecoration(
+                                          filled: true,
+                                          contentPadding: EdgeInsets.symmetric(vertical: PadValues.lesserPad, horizontal: PadValues.mainPad),
+                                          fillColor: Colors.grey.shade300,
+                                  hintText: "20",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade300, width: 1.0,),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.teal.shade900, width: 1.0),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade300, width: 1.0),
+                                  ),
+                                ),
+                                controller: secondRingController,
                               ),
-                              decoration: InputDecoration(
-                                        filled: true,
-                                        contentPadding: EdgeInsets.symmetric(vertical: PadValues.lesserPad, horizontal: PadValues.mainPad),
-                                        fillColor: Colors.grey.shade300,
-                                hintText: "20",
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade300, width: 1.0,),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.teal.shade900, width: 1.0),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.grey.shade300, width: 1.0),
-                                ),
-                              ),
-                              controller: secondRingController,
                             ),
                           ),
                           Padding(
@@ -444,32 +454,35 @@ class _TeleNumberState extends State<TeleNumber> {
                             padding: EdgeInsets.only(top: PadValues.mainPad, bottom: PadValues.mainPad),
                             child: Text("Ring for (Sec)",style: TextStyle(color: Colors.green)),
                           ),
-                          TextField(
-                            controller: thirdRingController,
-                            keyboardType: TextInputType.number,
+                          Container(
+                            width: 80,
+                            child: TextField(
+                              controller: thirdRingController,
+                              keyboardType: TextInputType.number,
 
-                            style: TextStyle(fontSize: 12,
-                                color: Colors.grey.shade900
-                            ),
-                            decoration: InputDecoration(
-                                      filled: true,
-                                      contentPadding: EdgeInsets.symmetric(vertical: PadValues.lesserPad, horizontal: PadValues.mainPad),
-                                      fillColor: Colors.grey.shade300,
-                              hintText: "20",
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey.shade300, width: 1.0,),
+                              style: TextStyle(fontSize: 12,
+                                  color: Colors.grey.shade900
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.teal.shade900, width: 1.0),
+                              decoration: InputDecoration(
+                                        filled: true,
+                                        contentPadding: EdgeInsets.symmetric(vertical: PadValues.lesserPad, horizontal: PadValues.mainPad),
+                                        fillColor: Colors.grey.shade300,
+                                hintText: "20",
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade300, width: 1.0,),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.teal.shade900, width: 1.0),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.grey.shade300, width: 1.0),
+                                ),
                               ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.grey.shade300, width: 1.0),
-                              ),
-                            ),
 
+                            ),
                           ),
                           Row(
                             children: [
@@ -578,7 +591,10 @@ class _TeleNumberState extends State<TeleNumber> {
                                       value: selectedButton,
                                       hint: Text("Select Type",),
                                       onChanged: (String? newValue) {
+
                                         setState(() {
+                                          counter = 0;
+                                          counter1 = 0;
                                           selectedButton = newValue!;
                                         });
                                       },
@@ -686,32 +702,35 @@ class _TeleNumberState extends State<TeleNumber> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(bottom: PadValues.mainPad),
-                            child: TextField(
-                              keyboardType: TextInputType.number,
+                            child: Container(
+                              width: 80,
+                              child: TextField(
+                                keyboardType: TextInputType.number,
 
-                              style: TextStyle(fontSize: 12,
-                                  color: Colors.grey.shade900
-                              ),
-                              controller: firstRingController,
-                              decoration: InputDecoration(
-                                filled: true,
-                                contentPadding: EdgeInsets.symmetric(vertical: PadValues.lesserPad, horizontal: PadValues.mainPad),
-                                fillColor: Colors.grey.shade300,
-                                hintText: "20",
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade300, width: 1.0,),
+                                style: TextStyle(fontSize: 12,
+                                    color: Colors.grey.shade900
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.teal.shade900, width: 1.0),
+                                controller: firstRingController,
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  contentPadding: EdgeInsets.symmetric(vertical: PadValues.lesserPad, horizontal: PadValues.mainPad),
+                                  fillColor: Colors.grey.shade300,
+                                  hintText: "20",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade300, width: 1.0,),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.teal.shade900, width: 1.0),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade300, width: 1.0),
+                                  ),
                                 ),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.grey.shade300, width: 1.0),
-                                ),
-                              ),
 
+                              ),
                             ),
                           ),
                           Padding(
@@ -800,31 +819,34 @@ class _TeleNumberState extends State<TeleNumber> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(bottom: PadValues.mainPad),
-                            child: TextField(
-                              keyboardType: TextInputType.number,
+                            child: Container(
+                              width: 80,
+                              child: TextField(
+                                keyboardType: TextInputType.number,
 
-                              style: TextStyle(fontSize: 12,
-                                  color: Colors.grey.shade900
+                                style: TextStyle(fontSize: 12,
+                                    color: Colors.grey.shade900
+                                ),
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  contentPadding: EdgeInsets.symmetric(vertical: PadValues.lesserPad, horizontal: PadValues.mainPad),
+                                  fillColor: Colors.grey.shade300,
+                                  hintText: "20",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade300, width: 1.0,),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.teal.shade900, width: 1.0),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade300, width: 1.0),
+                                  ),
+                                ),
+                                controller: secondRingController,
                               ),
-                              decoration: InputDecoration(
-                                filled: true,
-                                contentPadding: EdgeInsets.symmetric(vertical: PadValues.lesserPad, horizontal: PadValues.mainPad),
-                                fillColor: Colors.grey.shade300,
-                                hintText: "20",
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade300, width: 1.0,),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.teal.shade900, width: 1.0),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.grey.shade300, width: 1.0),
-                                ),
-                              ),
-                              controller: secondRingController,
                             ),
                           ),
                           Padding(
@@ -912,32 +934,35 @@ class _TeleNumberState extends State<TeleNumber> {
                             padding: EdgeInsets.only(top: PadValues.mainPad, bottom: PadValues.mainPad),
                             child: Text("Ring for (Sec)",style: TextStyle(color: Colors.green)),
                           ),
-                          TextField(
-                            keyboardType: TextInputType.number,
+                          Container(
+                            width: 80,
+                            child: TextField(
+                              keyboardType: TextInputType.number,
 
-                            controller: thirdRingController,
-                            style: TextStyle(fontSize: 12,
-                                color: Colors.grey.shade900
-                            ),
-                            decoration: InputDecoration(
-                              filled: true,
-                              contentPadding: EdgeInsets.symmetric(vertical: PadValues.lesserPad, horizontal: PadValues.mainPad),
-                              fillColor: Colors.grey.shade300,
-                              hintText: "20",
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey.shade300, width: 1.0,),
+                              controller: thirdRingController,
+                              style: TextStyle(fontSize: 12,
+                                  color: Colors.grey.shade900
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.teal.shade900, width: 1.0),
+                              decoration: InputDecoration(
+                                filled: true,
+                                contentPadding: EdgeInsets.symmetric(vertical: PadValues.lesserPad, horizontal: PadValues.mainPad),
+                                fillColor: Colors.grey.shade300,
+                                hintText: "20",
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade300, width: 1.0,),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.teal.shade900, width: 1.0),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.grey.shade300, width: 1.0),
+                                ),
                               ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.grey.shade300, width: 1.0),
-                              ),
-                            ),
 
+                            ),
                           ),
                           Row(
                             children: [
@@ -1069,13 +1094,66 @@ class _TeleNumberState extends State<TeleNumber> {
                 "20"));
           }
         }
-        else if (option == 2)
-        {
-          db.insertCallButtons(CallButtons(device.deviceId!, selectedButton,firstNameController.text, firstDialController.text, firstRingController.text, secondNameController.text, secondDialController.text, secondRingController.text, "", "", "20",));
+        else if (option == 2) {
+          if (currentCallButton == null) {
+            db.insertCallButtons(CallButtons(
+              device.deviceId!,
+              selectedButton,
+              firstNameController.text,
+              firstDialController.text,
+              firstRingController.text,
+              secondNameController.text,
+              secondDialController.text,
+              secondRingController.text,
+              "",
+              "",
+              "20",));
+          }
+          else {
+            db.updateCallButtons(CallButtons(
+              device.deviceId!,
+              selectedButton,
+              firstNameController.text,
+              firstDialController.text,
+              firstRingController.text,
+              secondNameController.text,
+              secondDialController.text,
+              secondRingController.text,
+              "",
+              "",
+              "20",));
+          }
         }
         else if (option == 3)
         {
-          db.insertCallButtons(CallButtons(device.deviceId!, selectedButton, firstNameController.text, firstDialController.text, firstRingController.text, secondNameController.text, secondDialController.text, secondRingController.text, thirdNameController.text, thirdDialController.text, thirdRingController.text));
+          if (currentCallButton == null) {
+            db.insertCallButtons(CallButtons(
+                device.deviceId!,
+                selectedButton,
+                firstNameController.text,
+                firstDialController.text,
+                firstRingController.text,
+                secondNameController.text,
+                secondDialController.text,
+                secondRingController.text,
+                thirdNameController.text,
+                thirdDialController.text,
+                thirdRingController.text));
+          }
+          else{
+            db.updateCallButtons(CallButtons(
+                device.deviceId!,
+                selectedButton,
+                firstNameController.text,
+                firstDialController.text,
+                firstRingController.text,
+                secondNameController.text,
+                secondDialController.text,
+                secondRingController.text,
+                thirdNameController.text,
+                thirdDialController.text,
+                thirdRingController.text));
+          }
         }
       }
     }
@@ -1087,6 +1165,7 @@ class _TeleNumberState extends State<TeleNumber> {
       Prevalent.showDialogue(context, "Num of rings is mandatory");
     }
   }
+
   void _sendSMS(String message, List<String> recipents) async {
     String _result = await sendSMS(message: message, recipients: recipents,sendDirect: false)
         .catchError((onError) {
@@ -1096,7 +1175,6 @@ class _TeleNumberState extends State<TeleNumber> {
   }
 
   Future<CallButtons?> getCallButton(String selectedButton, Device device) async {
-
     await db.open("mockup_dp");
     List<CallButtons>? callButtons = [];
     callButtons =await db.getCallButtons(device.deviceId!);
@@ -1116,32 +1194,26 @@ class _TeleNumberState extends State<TeleNumber> {
   }
 
   void PopulateFields(CallButtons? data) {
-    try {
-      firstNameController.text = data!.firstName;
-      secondNameController.text = data!.secondName;
-      thirdNameController.text = data!.thirdName;
-      firstDialController.text = data!.firstDial;
-      secondDialController.text = data!.secondDial;
-      thirdDialController.text = data!.thirdDial;
-      firstRingController.text = data!.firstRing;
-      secondRingController.text = data!.secondRing;
-      thirdRingController.text = data!.thirdRing;
-    }
-    catch(e){
-      firstNameController.text = "";
-      secondNameController.text = "";
-      thirdNameController.text = "";
-      firstDialController.text = "";
-      secondDialController.text = "";
-      thirdDialController.text = "";
-      firstRingController.text = "";
-      secondRingController.text = "";
-      thirdRingController.text = "";
-    }
+    print(counter1);
+    if(counter1 == 0 ) {
+    firstNameController.text = data!.firstName;
+    secondNameController.text = data!.secondName;
+    thirdNameController.text = data!.thirdName;
+    firstDialController.text = data!.firstDial;
+    secondDialController.text = data!.secondDial;
+    thirdDialController.text = data!.thirdDial;
+    firstRingController.text = data!.firstRing;
+    secondRingController.text = data!.secondRing;
+    thirdRingController.text = data!.thirdRing;
+    counter1++;
+
+}
   }
 
   void deletNumbers(CallButtons? data) {
+    counter = 0;
     db.deleteCallButtons(device.deviceId!, data!.buttonId).then((value){
+      emptyFields();
       Prevalent.showDialogue(context, "Button Deleted");
     });
   }
@@ -1175,6 +1247,21 @@ class _TeleNumberState extends State<TeleNumber> {
       Prevalent.showDialogue(context, "You need Permission to Access Contacts");
     }
 
+  }
+
+  void emptyFields() {
+    if(counter ==0) {
+      firstNameController.text = "";
+      secondNameController.text = "";
+      thirdNameController.text = "";
+      firstDialController.text = "";
+      secondDialController.text = "";
+      thirdDialController.text = "";
+      firstRingController.text = "";
+      secondRingController.text = "";
+      thirdRingController.text = "";
+      counter++;
+    }
   }
 
 

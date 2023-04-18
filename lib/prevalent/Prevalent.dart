@@ -27,7 +27,7 @@ class Prevalent{
                       fit: BoxFit.contain,
                     ),
                   ),
-                  Text(msg),
+                  Flexible(child: Text(msg)),
                 ],
               ),
               actions: <Widget>[

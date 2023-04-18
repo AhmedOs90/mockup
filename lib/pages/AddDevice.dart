@@ -98,13 +98,18 @@ class AddDevice extends StatelessWidget {
       Prevalent.showDialogue(context, "Phone number is mandatory");
     }
     else{
+
       Device device = Device(nameController.text, serialController.text, phoneController.text);
       DataBaseProvider db = new DataBaseProvider();
       await db.open("mockup_dp");
       if(selectedDevice != null){
-        await db.updateDevice(device);
+        selectedDevice!.name = nameController.text;
+        selectedDevice!.serial = serialController.text;
+        selectedDevice!.phone = phoneController.text;
+        await db.updateDevice(selectedDevice!);
       }
       else {
+        print("insert");
         await db.insertDevice(device);
         await db.insertRelays(Relays(device.deviceId!, 1, 'Relay 1'));
         await db.insertRelays(Relays(device.deviceId!, 2, 'Relay 2'));

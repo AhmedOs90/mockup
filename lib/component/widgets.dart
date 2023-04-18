@@ -134,25 +134,40 @@ PinCodesCard({required PinCodes pin, required action,PinCodes? selected}
       onTap: action,
       child: Card(
         color:select? Colors.grey.shade300:Colors.white,
-        child: Row(
-          children: [
-            Image(
-                height: 80,
-                width: 100,
-                image: AssetImage("assets/Panel.png")
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("PIN Code: " + pin.pinCode!, style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),),
-                Text(Prevalent.relay1+": "+pin.firstRelay1!),
-                Text(Prevalent.relay2+": "+pin.secondRelay2!),
-                Text(Prevalent.relay3+": "+pin.thirdRelay3!),
+        child: Padding(
+          padding: EdgeInsets.all(PadValues.mainPad),
+          child: Row(
+            children: [
+              Image(
+                  height: 90,
+                  width: 110,
+                  image: AssetImage("assets/Pincode.png")
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(PadValues.lesserPad),
+                    child: Text("PIN Code: " + pin.pinCode!, style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(PadValues.lesserPad),
+                    child: Text(Prevalent.relay1+": "+pin.firstRelay1!, style: TextStyle(color: Colors.green)),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(PadValues.lesserPad),
+                    child: Text(Prevalent.relay2+": "+pin.secondRelay2!, style: TextStyle(color: Colors.green)),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(PadValues.lesserPad),
+                    child: Text(Prevalent.relay3+": "+pin.thirdRelay3!,style: TextStyle(color: Colors.green)),
+                  ),
 
-              ],
-            )
-          ],
+                ],
+              )
+            ],
+          ),
         ),
       ),
     ),

@@ -199,6 +199,8 @@ create table $tableSMS (
   }
 
   Future<int> updateDevice(Device device) async {
+    print("id" +device.deviceId.toString());
+    print("Called");
     return await db.update(tableDevices, device.toMap(),
         where: '$device_id = ?', whereArgs: [device.deviceId]);
   }

@@ -786,7 +786,6 @@ class _AuthorizedCallsState extends State<AuthorizedCalls> {
                                               color: Colors.grey.shade300, width: 1.0),
                                         ),
                                       ),
-
                                     ),
                                   ),
                                 ),
@@ -1432,6 +1431,7 @@ class _AuthorizedCallsState extends State<AuthorizedCalls> {
         builder: (BuildContext context) =>
             AlertDialog(
               content: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
@@ -1444,15 +1444,16 @@ class _AuthorizedCallsState extends State<AuthorizedCalls> {
                         fit: BoxFit.contain,
                         ),
                       ),
-                      Text(msg),
+                      Flexible(child: Text(msg)),
                     ],
                   ),
                   Padding(
                     padding: EdgeInsets.all(PadValues.extraPad),
-                    child: Expanded(child: Container(
+                    child: Container(
                       height: 1,
+                      width: 100,
                       color: Colors.grey,
-                    )),
+                    ),
                   )
                 ],
               ),
