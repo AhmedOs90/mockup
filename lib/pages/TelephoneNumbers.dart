@@ -1014,7 +1014,7 @@ class _TeleNumberState extends State<TeleNumber> {
 
   void UpdateButtons() async {
 
-    if ((firstDialController.text.isNotEmpty) && int.parse(firstRingController.text)>0)
+    if ((firstDialController.text.isNotEmpty) && firstRingController.text.isNotEmpty)
     {
       print("firstIF");
       String strAux = "";
@@ -1161,7 +1161,7 @@ class _TeleNumberState extends State<TeleNumber> {
     {
       if (firstDialController.text.length < 1)
         Prevalent.showDialogue(context, "First dial number is mandatory");
-      else if (int.parse(firstRingController.text) < 1)
+      else if (firstRingController.text.isEmpty)
       Prevalent.showDialogue(context, "Num of rings is mandatory");
     }
   }
@@ -1219,7 +1219,7 @@ class _TeleNumberState extends State<TeleNumber> {
   }
 
   Future<void> getContact(index) async {
-    var status = await Permission.contacts.status;
+    var status = await Permission.contacts.request();
     if(status.isGranted) {
       final contact = await FlutterContacts.openExternalPick();
 

@@ -1411,7 +1411,7 @@ class _AuthorizedCallsState extends State<AuthorizedCalls> {
   }
 
   Future<void> getContact() async {
-    var status = await Permission.contacts.status;
+    var status = await await Permission.contacts.request();
     if(status.isGranted){
       final contact = await FlutterContacts.openExternalPick();
       setState(() {
